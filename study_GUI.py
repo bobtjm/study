@@ -5,14 +5,27 @@ from Tkinter import *
 
 gui = None
 
+def updateCats():
+    study_interface.updateCats(gui)
+def prevQ():
+    study_interface.prevQ(gui)
+def nextQ():
+    study_interface.nextQ(gui)
+def updateWord():
+    study_interface.updateWord(gui)
+def answer():
+    study_interface.answer(gui)
+def updateQ():
+    study_interface.updateQ(gui)
+
 class GUI: #view
-    updateCats = study_interface.updateCats
-    save = None #defined in __init__
-    prevQ = study_interface.prevQ
-    nextQ = study_interface.nextQ
-    updateWord = study_interface.updateWord
-    answer = study_interface.answer
-    updateQ = study_interface.updateQ
+    #updateCats = study_interface.updateCats
+    #save = None #defined in __init__
+    #prevQ = study_interface.prevQ
+    #nextQ = study_interface.nextQ
+    #updateWord = study_interface.updateWord
+    #answer = study_interface.answer
+    #updateQ = study_interface.updateQ
     
     def __init__(self):
         global gui
@@ -21,6 +34,13 @@ class GUI: #view
         self.q, self.a = StringVar(), StringVar()
         self.data = study_data.Data(getfile.getFile(self.root))
         self.save = self.data.save
+
+        self.updateCats = updateCats
+        self.prevQ = prevQ
+        self.nextQ = nextQ
+        self.updateWord = updateWord
+        self.answer = answer
+        self.updateQ = updateQ
         
         self.cats = self.Checkbar(self.root, [c for c in sorted(self.data.categories)], self.data.activeCategories, update = self.updateCats, maxColumns = 6)
         #cats.pack(side = TOP, fill = X)
@@ -77,7 +97,7 @@ class GUI: #view
     class QuestionBox(Frame):
         def __init__(self, q, a, parent = None):
             Frame.__init__(self, parent)
-            self.c = gui.Checkbar(self, ["Universal skip", "Temporary skip"], side = TOP, update = study_interface.updateWord, maxColumns = 1)
+            self.c = gui.Checkbar(self, ["Universal skip", "Temporary skip"], side = TOP, update = gui.updateWord, maxColumns = 1)
             self.c.grid(column=3, row = 0)#pack(side = LEFT)
             self.q = Label(self, textvariable = q, width = 71, wraplength = 500)
             self.q.grid(column = 1, row = 0, sticky = W)
